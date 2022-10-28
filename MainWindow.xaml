@@ -1,0 +1,10 @@
+﻿<Window x:Class="CourseWorkApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CourseWorkApp"
+        mc:Ignorable="d"
+        Title="MainWindow" Width="1600" Height="720" x:Name="mainWindow">
+    <Frame x:Name="mainFrame" Background="White" NavigationUIVisibility="Hidden" />
+</Window>

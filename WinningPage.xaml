@@ -1,0 +1,17 @@
+﻿<Page x:Class="CourseWorkApp.WinningPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:CourseWorkApp"
+      mc:Ignorable="d" 
+      d:DesignHeight="720" d:DesignWidth="1600"
+      Title="WinningPage">
+
+    <Grid Background="White">
+        <TextBlock x:Name="finishLabel" TextAlignment="Center" HorizontalAlignment="Left" Margin="384,118,0,0" TextWrapping="Wrap" Text="Level Finished" VerticalAlignment="Top" Height="122" Width="780" FontSize="72" FontFamily="./#Cinzel Bold"/>
+        <Button x:Name="toLevelSelectButton" Content="To Level Select" HorizontalAlignment="Left" VerticalAlignment="Top" Height="35" Width="264" Click="toLevelSelectButton_Click" Margin="642,481,0,0"/>
+        <Button x:Name="toMainMenuButton" Content="To Main Menu" HorizontalAlignment="Left" Margin="642,402,0,0" VerticalAlignment="Top" Height="35" Width="264" Click="toMainMenuButton_Click" />
+
+    </Grid>
+</Page>
