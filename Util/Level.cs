@@ -25,7 +25,7 @@ namespace CourseWorkApp
 
         public Boarder boarders;
 
-        FinishObject finishObj;
+        public FinishObject finishObj;
 
         public Rotators rotators;
 
@@ -104,6 +104,16 @@ namespace CourseWorkApp
                     if (dot.IntersectsWith(GraphicUtilities.ConvertRectangleToRect(item,gridWidth,gridHeight)))
                     {
                         intersect = true;
+                        break;
+                    }
+                    
+                }
+                foreach(var item in rotators.GetListOfRotators())
+                {
+                    if (dot.IntersectsWith(GraphicUtilities.ConvertRectangleToRect(item, gridWidth, gridHeight)))
+                    {
+                        intersect = true;
+                        break;
                     }
                 }
             }

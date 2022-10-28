@@ -30,12 +30,13 @@ namespace CourseWorkApp
         public static Level lvl;
 
 
-        int timeOnTimer = 100;
+        int timeOnTimer = 0;
 
         public string currentLevel;
 
         static bool addObjectMode = false;
         static bool levelFinished = false;
+        bool intersect = false;
 
         Label timer;
         DispatcherTimer time;
@@ -55,12 +56,12 @@ namespace CourseWorkApp
 
             lvl = new Level(1600, 720, currentLevel);
 
-            lvl.prototype.MouseDown += Rectangle_MouseDown;
-            lvl.prototype.MouseMove += Rectangle_MouseMove;
-            lvl.prototype.MouseUp += Rectangle_MouseUp;
+            levelGrid.MouseDown += LevelGrid_MouseDown;
+            levelGrid.MouseUp += LevelGrid_MouseUp;
+            levelGrid.MouseMove += LevelGrid_MouseMove;
 
             time = new DispatcherTimer();
-            time.Interval = TimeSpan.FromSeconds(1);
+            time.Interval = TimeSpan.FromMilliseconds(1);
             time.Tick += timer_Tick;
             time.Start();
 
@@ -84,6 +85,34 @@ namespace CourseWorkApp
 
         }
 
+        bool isMoved = false;
+
+        private void LevelGrid_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (isMoved && addObjectMode)
+            {
+                levelGrid.Children.Remove(lvl.prototype);
+                lvl.prototype.Margin = GraphicUtilities.ConvertRectToRectangle(new Rect(e.GetPosition(this).X, e.GetPosition(this).Y, 30, 30), 1600, 720).Margin;
+                levelGrid.Children.Add(lvl.prototype);
+            }
+        }
+
+        private void LevelGrid_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Released && addObjectMode)
+            { 
+                isMoved = false;
+            }
+        }
+
+        private void LevelGrid_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed && addObjectMode)
+            { 
+                isMoved = true;
+            }
+        }
+
         public void LevelInit()
         {
             for (int i = 0; i < levelGrid.Children.Count; i++)
@@ -101,10 +130,6 @@ namespace CourseWorkApp
             foreach (var item in lvl.GetFullRay())
                 levelGrid.Children.Add(item);
 
-            foreach (var item in lvl.rotators.GetListOfRotators())
-                if (!levelGrid.Children.Contains(item))
-                    levelGrid.Children.Add(item);
-
             if (levelFinished)
             {
                 time.Stop();
@@ -117,10 +142,12 @@ namespace CourseWorkApp
                 levelFinished = false;
             }
         }
+
         void timer_Tick(object sender, EventArgs e)
         {
             timer.Content = timeOnTimer.ToString();
-            timeOnTimer -= 1;
+            LevelInit();
+            timeOnTimer += 1;
             if (timeOnTimer < 0)
             {
                 time.Stop();
@@ -135,12 +162,10 @@ namespace CourseWorkApp
                 if (e.Key == Key.W && lvl.rayAngle >= -1.56)
                 {
                     lvl.rayAngle -= 0.004;
-                    LevelInit();
                 }
                 if (e.Key == Key.S && lvl.rayAngle <= 1.56)
                 {
                     lvl.rayAngle += 0.004;
-                    LevelInit();
                 }
             }
         }
@@ -150,47 +175,55 @@ namespace CourseWorkApp
             levelFinished = true;
         }
 
-      
         private void addRotatorButton_Click(object sender, RoutedEventArgs e)
         {
             addObjectMode = true;
-            levelGrid.Children.Add(lvl.prototype);
             addRotator_Button.IsEnabled = false;
+            levelGrid.Children.Add(lvl.prototype);
             confirmRotator_Button.IsEnabled = true;
         }
+
         private void confirmButtom_Click(object sender, RoutedEventArgs e)
         {
+            foreach(var item in lvl.boarders.GetBoarders())
+            {
+                if (GraphicUtilities.ConvertRectangleToRect(item, 1600, 720).IntersectsWith(GraphicUtilities.ConvertRectangleToRect(lvl.prototype, 1600, 720)))
+                {
+                    intersect = true;
+                }
+            }
+
+            foreach (var item in lvl.rotators.GetListOfRotators())
+            {
+                if (GraphicUtilities.ConvertRectangleToRect(item, 1600, 720).IntersectsWith(GraphicUtilities.ConvertRectangleToRect(lvl.prototype, 1600, 720)))
+                {
+                    intersect = true;
+                }
+            }
+
+            foreach (var item in lvl.finishObj.GetFinishList())
+            {
+                if (GraphicUtilities.ConvertRectangleToRect(item, 1600, 720).IntersectsWith(GraphicUtilities.ConvertRectangleToRect(lvl.prototype, 1600, 720)))
+                {
+                    intersect = true;
+                }
+            }
+
             addRotator_Button.IsEnabled = true;
             confirmRotator_Button.IsEnabled = false;
-            lvl.rotators.AddRotator(lvl.prototype);
+
+
             levelGrid.Children.Remove(lvl.prototype);
+            if (!intersect)
+            {
+                lvl.rotators.AddRotator(lvl.prototype);
+            }
+
+            lvl.prototype.Margin = new Thickness(0, 0, 0, 0);
+
+            intersect = false;
             addObjectMode = false;
-            LevelInit();
         }
 
-        bool isMoved = false;
-        Point startMovePosition;
-        private void Rectangle_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (e.LeftButton == MouseButtonState.Pressed)
-            {
-                isMoved = true;
-                startMovePosition = e.GetPosition(this);
-            }
-        }
-        private void Rectangle_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-            if (e.LeftButton == MouseButtonState.Released)
-            {
-                isMoved = false;
-            }
-        }
-        private void Rectangle_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (isMoved)
-            {
-                lvl.prototype.Margin = GraphicUtilities.ConvertRectToRectangle(new Rect(e.GetPosition(this).X, e.GetPosition(this).Y, 30,30), 1600, 720).Margin;
-            }
-        }
     }
 }
