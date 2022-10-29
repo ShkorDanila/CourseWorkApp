@@ -89,7 +89,7 @@ namespace CourseWorkApp
         public Line applyLogics(double angle, Point firstPoint)
         {
             bool intersect = false;
-            
+
             double len = 0;
             Rect dot = new Rect(firstPoint.X, firstPoint.Y, 1, 1);
            
@@ -113,6 +113,11 @@ namespace CourseWorkApp
                     if (dot.IntersectsWith(GraphicUtilities.ConvertRectangleToRect(item, gridWidth, gridHeight)))
                     {
                         intersect = true;
+                        if (dot.Y >= GraphicUtilities.ConvertRectangleToRect(item, gridWidth, gridHeight).Y && dot.X <= GraphicUtilities.ConvertRectangleToRect(item, gridWidth, gridHeight).X)
+                                ray.UpdateRayList(Math.PI - rayAngle, new Point(dot.X, dot.Y));
+                        if (dot.Y <= GraphicUtilities.ConvertRectangleToRect(item, gridWidth, gridHeight).Y + 0.1 && dot.X >= GraphicUtilities.ConvertRectangleToRect(item, gridWidth, gridHeight).X)
+                            MessageBox.Show(rayAngle.ToString());
+                            //ray.UpdateRayList(-Math.PI/2, new Point(dot.X, dot.Y));
                         break;
                     }
                 }
@@ -130,6 +135,7 @@ namespace CourseWorkApp
         public List<Line> GetFullRay()
         {
             ray.UpdateRayList(rayAngle, firstP);
+            
             return ray.GetRayList();
         }
 

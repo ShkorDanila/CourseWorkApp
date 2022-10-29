@@ -29,6 +29,7 @@ namespace CourseWorkApp
     {
         public static Level lvl;
 
+        string[] rotatorVariations = {"right", "left", "top", "down", "top-down", "right-left"};
 
         int timeOnTimer = 0;
 
@@ -36,9 +37,12 @@ namespace CourseWorkApp
 
         static bool addObjectMode = false;
         static bool levelFinished = false;
+        int activeTag = 0;
         bool intersect = false;
 
         Label timer;
+        Label activeTagLabel;
+
         DispatcherTimer time;
 
         Button addRotator_Button = new Button(); 
@@ -60,7 +64,7 @@ namespace CourseWorkApp
             addRotator_Button.Height = 40;
             addRotator_Button.VerticalAlignment = VerticalAlignment.Bottom;
             addRotator_Button.HorizontalAlignment = HorizontalAlignment.Left;
-            addRotator_Button.Margin = new Thickness(300, 0, 0, 30);
+            addRotator_Button.Margin = new Thickness(300, 0, 0, 40);
             addRotator_Button.Content = "addRotator";
             addRotator_Button.Click += addRotatorButton_Click;
 
@@ -68,7 +72,7 @@ namespace CourseWorkApp
             confirmRotator_Button.Height = 40;
             confirmRotator_Button.VerticalAlignment = VerticalAlignment.Bottom;
             confirmRotator_Button.HorizontalAlignment = HorizontalAlignment.Left;
-            confirmRotator_Button.Margin = new Thickness(400, 0, 0, 30);
+            confirmRotator_Button.Margin = new Thickness(450, 0, 0, 40);
             confirmRotator_Button.Content = "confirm Button";
             confirmRotator_Button.Click += confirmButtom_Click;
 
@@ -83,15 +87,12 @@ namespace CourseWorkApp
             time.Tick += timer_Tick;
             time.Start();
 
-
             timer = new Label();
             timer.VerticalAlignment = VerticalAlignment.Center;
             timer.HorizontalAlignment = HorizontalAlignment.Center;
             timer.FontSize = 40;
             timer.FontFamily = new FontFamily("Consolas Bold");
             timer.Foreground = Brushes.Black;
-
-            LevelInit();
 
             lvlPage.Focus();
 
@@ -129,9 +130,6 @@ namespace CourseWorkApp
         {
             levelGrid.Children.Clear();
 
-            levelGrid.Children.Add(timer);
-
-
             foreach (var item in lvl.boarders.GetBoarders())
             {
                 levelGrid.Children.Add(item);
@@ -154,6 +152,7 @@ namespace CourseWorkApp
 
             levelGrid.Children.Add(addRotator_Button);
             levelGrid.Children.Add(confirmRotator_Button);
+            levelGrid.Children.Add(timer);
 
             if (levelFinished)
             {
@@ -206,6 +205,7 @@ namespace CourseWorkApp
             addRotator_Button.IsEnabled = false;
             levelGrid.Children.Add(lvl.prototype);
             confirmRotator_Button.IsEnabled = true;
+            lvl.prototype.Tag = rotatorVariations[activeTag];
         }
 
         private void confirmButtom_Click(object sender, RoutedEventArgs e)
