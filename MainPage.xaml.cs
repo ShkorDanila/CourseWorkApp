@@ -20,6 +20,7 @@ namespace CourseWorkApp
     /// </summary>
     public partial class MainPage : Page
     {
+
         public MainPage()
         {
             InitializeComponent();

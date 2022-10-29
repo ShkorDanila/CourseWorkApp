@@ -9,7 +9,7 @@
       Title="MainPage">
 
     <Grid Background="White">
-        <TextBlock TextAlignment="Center" HorizontalAlignment="Center" Margin="0,117,0,0" TextWrapping="Wrap" Text="Ray of Light" VerticalAlignment="Top" Height="122" Width="780" FontSize="72" FontFamily="./#Cinzel Bold"/>
+        <TextBlock TextAlignment="Center" HorizontalAlignment="Center" Margin="0,100,0,0" TextWrapping="Wrap" Text="Ray of Light" VerticalAlignment="Top" Height="122" Width="780" FontSize="72" FontFamily="./#Cinzel Bold"/>
         <Button Content="Start" HorizontalAlignment="Center" Margin="0,280,0,0" VerticalAlignment="Top" Height="35" Width="264" Click="startButton_Click"/>
         <Button Content="Settings" HorizontalAlignment="Center" Margin="0,330,0,0" VerticalAlignment="Top" Height="35" Width="264"/>
         <Button Content="Button" HorizontalAlignment="Center" Margin="0,380,0,0" VerticalAlignment="Top" Height="35" Width="264"/>

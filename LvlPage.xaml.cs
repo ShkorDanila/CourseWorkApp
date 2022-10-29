@@ -41,6 +41,8 @@ namespace CourseWorkApp
         Label timer;
         DispatcherTimer time;
 
+        Button addRotator_Button = new Button(); 
+        Button confirmRotator_Button = new Button();
 
         public static List<RectangleGeometry> mirrorsUsers = new List<RectangleGeometry>();
 
@@ -54,25 +56,33 @@ namespace CourseWorkApp
 
             InitializeComponent();
 
-            lvl = new Level(1600, 720, currentLevel);
+            addRotator_Button.Width = 100;
+            addRotator_Button.Height = 40;
+            addRotator_Button.VerticalAlignment = VerticalAlignment.Bottom;
+            addRotator_Button.HorizontalAlignment = HorizontalAlignment.Left;
+            addRotator_Button.Margin = new Thickness(300, 0, 0, 30);
+            addRotator_Button.Content = "addRotator";
+            addRotator_Button.Click += addRotatorButton_Click;
+
+            confirmRotator_Button.Width = 100;
+            confirmRotator_Button.Height = 40;
+            confirmRotator_Button.VerticalAlignment = VerticalAlignment.Bottom;
+            confirmRotator_Button.HorizontalAlignment = HorizontalAlignment.Left;
+            confirmRotator_Button.Margin = new Thickness(400, 0, 0, 30);
+            confirmRotator_Button.Content = "confirm Button";
+            confirmRotator_Button.Click += confirmButtom_Click;
+
+            lvl = new Level(MainWindow.getWidth(), MainWindow.getHeight(), currentLevel);
 
             levelGrid.MouseDown += LevelGrid_MouseDown;
             levelGrid.MouseUp += LevelGrid_MouseUp;
             levelGrid.MouseMove += LevelGrid_MouseMove;
 
             time = new DispatcherTimer();
-            time.Interval = TimeSpan.FromMilliseconds(1);
+            time.Interval = TimeSpan.FromTicks(1);
             time.Tick += timer_Tick;
             time.Start();
 
-            LevelInit();
-
-            lvlPage.Focus();
-
-
-            foreach (var item in lvl.boarders.GetBoarders())
-                if (!levelGrid.Children.Contains(item))
-                    levelGrid.Children.Add(item);
 
             timer = new Label();
             timer.VerticalAlignment = VerticalAlignment.Center;
@@ -80,8 +90,10 @@ namespace CourseWorkApp
             timer.FontSize = 40;
             timer.FontFamily = new FontFamily("Consolas Bold");
             timer.Foreground = Brushes.Black;
-            levelGrid.Children.Add(timer);
 
+            LevelInit();
+
+            lvlPage.Focus();
 
         }
 
@@ -92,7 +104,7 @@ namespace CourseWorkApp
             if (isMoved && addObjectMode)
             {
                 levelGrid.Children.Remove(lvl.prototype);
-                lvl.prototype.Margin = GraphicUtilities.ConvertRectToRectangle(new Rect(e.GetPosition(this).X, e.GetPosition(this).Y, 30, 30), 1600, 720).Margin;
+                lvl.prototype.Margin = GraphicUtilities.ConvertRectToRectangle(new Rect(e.GetPosition(this).X, e.GetPosition(this).Y, 30, 30), MainWindow.getWidth(), MainWindow.getHeight()).Margin;
                 levelGrid.Children.Add(lvl.prototype);
             }
         }
@@ -115,20 +127,33 @@ namespace CourseWorkApp
 
         public void LevelInit()
         {
-            for (int i = 0; i < levelGrid.Children.Count; i++)
+            levelGrid.Children.Clear();
+
+            levelGrid.Children.Add(timer);
+
+
+            foreach (var item in lvl.boarders.GetBoarders())
             {
-                if (levelGrid.Children[i].GetType() == typeof(Line))
-                {
-                    levelGrid.Children.RemoveAt(i);
-                }
+                levelGrid.Children.Add(item);
+            }
+            foreach(var item in lvl.rotators.GetListOfRotators())
+            {
+                levelGrid.Children.Add(item);
+            }
+            foreach(var item in lvl.finishObj.GetFinishList())
+            {
+                levelGrid.Children.Add(item);
+            }
+            foreach (var item in lvl.GetFullRay())
+            {
+                levelGrid.Children.Add(item);
             }
 
-            foreach (var item in lvl.rotators.GetListOfRotators())
-                if (!levelGrid.Children.Contains(item))
-                    levelGrid.Children.Add(item);
+            if (addObjectMode)
+                levelGrid.Children.Add(lvl.prototype);
 
-            foreach (var item in lvl.GetFullRay())
-                levelGrid.Children.Add(item);
+            levelGrid.Children.Add(addRotator_Button);
+            levelGrid.Children.Add(confirmRotator_Button);
 
             if (levelFinished)
             {
@@ -187,7 +212,7 @@ namespace CourseWorkApp
         {
             foreach(var item in lvl.boarders.GetBoarders())
             {
-                if (GraphicUtilities.ConvertRectangleToRect(item, 1600, 720).IntersectsWith(GraphicUtilities.ConvertRectangleToRect(lvl.prototype, 1600, 720)))
+                if (GraphicUtilities.ConvertRectangleToRect(item, MainWindow.getWidth(), MainWindow.getHeight()).IntersectsWith(GraphicUtilities.ConvertRectangleToRect(lvl.prototype, MainWindow.getWidth(), MainWindow.getHeight())))
                 {
                     intersect = true;
                 }
@@ -195,7 +220,7 @@ namespace CourseWorkApp
 
             foreach (var item in lvl.rotators.GetListOfRotators())
             {
-                if (GraphicUtilities.ConvertRectangleToRect(item, 1600, 720).IntersectsWith(GraphicUtilities.ConvertRectangleToRect(lvl.prototype, 1600, 720)))
+                if (GraphicUtilities.ConvertRectangleToRect(item, MainWindow.getWidth(), MainWindow.getHeight()).IntersectsWith(GraphicUtilities.ConvertRectangleToRect(lvl.prototype, MainWindow.getWidth(), MainWindow.getHeight())))
                 {
                     intersect = true;
                 }
@@ -203,26 +228,31 @@ namespace CourseWorkApp
 
             foreach (var item in lvl.finishObj.GetFinishList())
             {
-                if (GraphicUtilities.ConvertRectangleToRect(item, 1600, 720).IntersectsWith(GraphicUtilities.ConvertRectangleToRect(lvl.prototype, 1600, 720)))
+                if (GraphicUtilities.ConvertRectangleToRect(item, MainWindow.getWidth(), MainWindow.getHeight()).IntersectsWith(GraphicUtilities.ConvertRectangleToRect(lvl.prototype, MainWindow.getWidth(), MainWindow.getHeight())))
                 {
                     intersect = true;
                 }
             }
 
-            addRotator_Button.IsEnabled = true;
-            confirmRotator_Button.IsEnabled = false;
 
 
             levelGrid.Children.Remove(lvl.prototype);
+
+            Rectangle newRotator = new Rectangle();
+            newRotator = lvl.prototype;
+
             if (!intersect)
             {
-                lvl.rotators.AddRotator(lvl.prototype);
+                lvl.rotators.AddRotator(newRotator);
             }
 
             lvl.prototype.Margin = new Thickness(0, 0, 0, 0);
 
             intersect = false;
             addObjectMode = false;
+
+            addRotator_Button.IsEnabled = true;
+            confirmRotator_Button.IsEnabled = false;
         }
 
     }

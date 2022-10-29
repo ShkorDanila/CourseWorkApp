@@ -25,11 +25,11 @@ namespace CourseWorkApp
 
         public Rotators()
         {
-            rotator = new Rectangle();
         }
 
         public void AddRotator(Rectangle prototype)
         {
+            rotator = new Rectangle();
             rotator.Margin = prototype.Margin;
             rotator.Width = rotatorSide;
             rotator.Height = rotatorSide; 

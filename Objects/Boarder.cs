@@ -43,7 +43,6 @@ namespace CourseWorkApp
             boarder = GraphicUtilities.ConvertRectToRectangle(new Rect(30, gridHeight - 100, gridWidth - 60, 100), gridWidth, gridHeight);
             boarder.Fill = Brushes.Gray;
             boardersList.Add(boarder);
-
         }
 
         public void addBoarder(Rect r)
@@ -57,6 +56,7 @@ namespace CourseWorkApp
                 boarder.Fill = Brushes.Gray;
             return boardersList;
         }
+      
 
     }
 }

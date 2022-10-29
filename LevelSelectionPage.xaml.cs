@@ -21,6 +21,7 @@ namespace CourseWorkApp
     /// </summary>
     public partial class LevelSelectionPage : Page
     {
+
         public LevelSelectionPage()
         {
             InitializeComponent();
@@ -28,7 +29,7 @@ namespace CourseWorkApp
         }
         void setLevelList()
         {
-            string[] allfiles = Directory.GetFiles(@"D:\\COURSEWORK\\CourseWorkApp\\levels\\", "*.txt");
+            string[] allfiles = Directory.GetFiles(@"levels\", "*.txt");
 
             foreach (string file in allfiles)
             {
@@ -40,7 +41,7 @@ namespace CourseWorkApp
         {
             if (listOfLevels.SelectedItem != null)
             {
-                string selectedLvl = "D:\\COURSEWORK\\CourseWorkApp\\levels\\" + Convert.ToString(listOfLevels.SelectedItem) + ".txt";
+                string selectedLvl = "levels\\" + Convert.ToString(listOfLevels.SelectedItem) + ".txt";
                 NavigationService.Navigate(new LvlPage(selectedLvl));
             }
         }

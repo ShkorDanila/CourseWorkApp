@@ -9,8 +9,8 @@
       Title="LevelSelectionPage">
 
     <Grid Background="White">
-        <Button Content="Button" HorizontalAlignment="Left" Margin="1418,36,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.489,0.676" Height="28" Width="124" Click="startLevelButton_Click" />
-        <Button Content="Back to Main Menu" HorizontalAlignment="Left" Margin="1418,95,0,0" VerticalAlignment="Top" Width="124" Height="28" Click="backToMMButton_Click" />
+        <Button Content="Button" Margin="0,50,60,0" VerticalAlignment="Top" HorizontalAlignment="Right" RenderTransformOrigin="0.489,0.676" Height="28" Width="124" Click="startLevelButton_Click" />
+        <Button Content="Back to Main Menu" Margin="0,100,60,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="124" Height="28" Click="backToMMButton_Click" />
         <ListView x:Name="listOfLevels" Margin="26,18,244,33" >
             <ListView.View>
                 <GridView>

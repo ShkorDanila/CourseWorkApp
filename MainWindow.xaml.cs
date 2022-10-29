@@ -21,20 +21,26 @@ namespace CourseWorkApp
     /// </summary>
     public partial class MainWindow : Window
     {
-        static double width = 1600;
-        static double height = 720;
+        static double width = 1400;
+        static double height = 630;
+
+        static MainWindow Instance;
         public MainWindow()
         {
+            Instance = this;
             InitializeComponent();
+            mainWindow.Width = width;
+            mainWindow.Height = height;
             mainFrame.Content = new MainPage();
         }
         public static double getWidth()
         {
-            return width;
+            return MainWindow.Instance.Width;
         }
+        
         public static double getHeight()
         {
-            return height;
+            return MainWindow.Instance.Height;
         }
 
 

@@ -5,12 +5,9 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:CourseWorkApp"
       mc:Ignorable="d" 
-      d:DesignHeight="720" d:DesignWidth="1600"
       Title="LvlPage"
-      x:Name="lvlPage" KeyDown="KeyPressed" Focusable="True">
+      x:Name="lvlPage" KeyDown="KeyPressed" Focusable="True"> 
 
     <Grid Background="White" x:Name="levelGrid">
-        <Button x:Name="addRotator_Button" Content="addRotator" HorizontalAlignment="Left" Margin="180,612,0,0" VerticalAlignment="Top" Height="54" Width="107" Click="addRotatorButton_Click" Panel.ZIndex="1"/>
-        <Button x:Name="confirmRotator_Button" Content="confirmButton" HorizontalAlignment="Left" Margin="340,612,0,0" VerticalAlignment="Top" Height="54" Width="107" Click="confirmButtom_Click" Panel.ZIndex="1"/>
-    </Grid>
+        </Grid>
 </Page>

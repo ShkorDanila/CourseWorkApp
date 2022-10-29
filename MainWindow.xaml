@@ -5,6 +5,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CourseWorkApp"
         mc:Ignorable="d"
-        Title="MainWindow" Width="1600" Height="720" x:Name="mainWindow">
-    <Frame x:Name="mainFrame" Background="White" NavigationUIVisibility="Hidden" />
+        Title="MainWindow" x:Name="mainWindow" WindowStartupLocation="CenterScreen">
+    <Frame x:Name="mainFrame" Background="White" NavigationUIVisibility="Hidden" Width="auto" Height="auto"/>
 </Window>
