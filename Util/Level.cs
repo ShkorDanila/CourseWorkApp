@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Reflection;
 using System.Windows.Media.Imaging;
 using System.Net.Security;
+using System.Windows.Media.Animation;
 
 namespace CourseWorkApp
 {
@@ -112,12 +113,14 @@ namespace CourseWorkApp
                 {
                     if (dot.IntersectsWith(GraphicUtilities.ConvertRectangleToRect(item, gridWidth, gridHeight)))
                     {
+                        Rect testR = GraphicUtilities.ConvertRectangleToRect(item, gridWidth, gridHeight);
                         intersect = true;
-                        if (dot.Y >= GraphicUtilities.ConvertRectangleToRect(item, gridWidth, gridHeight).Y && dot.X <= GraphicUtilities.ConvertRectangleToRect(item, gridWidth, gridHeight).X)
-                                ray.UpdateRayList(Math.PI - rayAngle, new Point(dot.X, dot.Y));
-                        if (dot.Y <= GraphicUtilities.ConvertRectangleToRect(item, gridWidth, gridHeight).Y + 0.1 && dot.X >= GraphicUtilities.ConvertRectangleToRect(item, gridWidth, gridHeight).X)
-                            MessageBox.Show(rayAngle.ToString());
-                            //ray.UpdateRayList(-Math.PI/2, new Point(dot.X, dot.Y));
+                        if (dot.Y > testR.Y && dot.Y < testR.Y + testR.Height - 0.9) 
+                        {
+                            ray.UpdateRayList(Math.PI-angle, new Point(dot.X, dot.Y - 0.1));
+                        }
+                        if (dot.Y < testR.Y || dot.Y > testR.Y + testR.Height - 0.1)
+                            ray.UpdateRayList(-angle, new Point(dot.X, dot.Y));
                         break;
                     }
                 }
